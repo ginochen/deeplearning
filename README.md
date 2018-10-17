@@ -11,8 +11,15 @@ from pyspark.context import SparkContext
 from pyspark.ml.linalg import Vectors
 from pyspark.ml.regression import LinearRegression
 from pyspark.sql.session import SparkSession
+from pyspark.sql import SQLContext
 
 sc = SparkContext()
+sqlContext = SQLContext(sc)
+# Read data
+# method 1: use dataframe
+df = sqlContext.read.format('com.databricks.spark.csv').options(header='true', inferschema='true').load('deeplearning.csv')
+# method 2: use rdd 
+myrdd = sc.textFile("yourfile.csv").map(lambda line: line.split(","))
 spark = SparkSession(sc)
 bucket = spark._jsc.hadoopConfiguration().get("fs.gs.system.bucket")
 project = spark._jsc.hadoopConfiguration().get("fs.gs.project.id")
