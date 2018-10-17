@@ -6,6 +6,12 @@ FROM [bigquery-public-data:samples.natality] LIMIT 10000
 ```
 * Use PySpark to configure and import the data:
 ```python
+from datetime import datetime
+from pyspark.context import SparkContext
+from pyspark.ml.linalg import Vectors
+from pyspark.ml.regression import LinearRegression
+from pyspark.sql.session import SparkSession
+
 sc = SparkContext()
 spark = SparkSession(sc)
 bucket = spark._jsc.hadoopConfiguration().get("fs.gs.system.bucket")
